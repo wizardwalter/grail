@@ -24,15 +24,15 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if (await UserExsists(registerDto.Username))
+            if (await UserExsists(registerDto.Email))
             {
-                return BadRequest("Username is taken");
+                return BadRequest("Email is already registered");
             };
             using var hmac = new HMACSHA512();
 
             var user = new AppUser
             {
-                UserName = registerDto.Username,
+                Email = registerDto.Email,
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
                 PasswordSalt = hmac.Key
             };
@@ -41,7 +41,7 @@ namespace API.Controllers
 
             return new UserDto
             {
-                Username = user.UserName,
+                Email = user.Email,
                 Token = _tokenService.CreateToken(user)
             };
 
@@ -50,7 +50,7 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == loginDto.Email);
 
             if (user == null) return Unauthorized("Invalid username");
 
@@ -64,14 +64,14 @@ namespace API.Controllers
             }
             return new UserDto
             {
-                Username = user.UserName,
+                Email = user.Email,
                 Token = _tokenService.CreateToken(user)
             };
         }
 
-        private async Task<bool> UserExsists(string username)
+        private async Task<bool> UserExsists(string email)
         {
-            return await _context.Users.AnyAsync(x => x.UserName == username.ToLower());
+            return await _context.Users.AnyAsync(x => x.Email == email.ToLower());
         }
     }
 }

@@ -1,0 +1,25 @@
+<nav class="navbar fixed-top navbar-dark  bg-dark">
+    <div class="container">
+        <div class="col-8">
+            <div class="row justify-content-start">
+                <a class="navbar-brand" routerLink="/">LOGO GOES HERE</a>
+            </div>
+            
+        </div>
+        <div class="col-2">
+            <div class="row justify-content-around" *ngIf="(accountService.currentUser$ | async) === null">
+                <button id="login" class="btn btn-sm btn-primary" routerLink="/login">Login</button>
+                <button id="register" class="btn btn-sm btn-success" routerLink="/register">Register</button>
+            </div>
+            <div class="row justify-content-end" *ngIf="accountService.currentUser$ | async">
+                <button id="logout" class="btn btn-sm btn-danger" (click)= 'logout()'>Logout</button>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="row justify-content-end">
+                <button class="btn btn-sm btn-info">cart</button>
+            </div>
+            
+        </div>
+    </div>
+  </nav>

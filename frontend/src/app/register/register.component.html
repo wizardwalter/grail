@@ -1,0 +1,21 @@
+
+<h1 class="text-center">Sign Up Below</h1>
+<hr>
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+  
+     
+  
+      <!-- Login Form -->
+      <form #registerForm= 'ngForm' (ngSubmit)= 'register()' autocomplete="off">
+        <input type="text" id="Email" class="fadeIn second" name="Email" placeholder="Email" [(ngModel)]= 'model.email'>
+        <input type="password" id="password" class="fadeIn third" name="Password" placeholder="Password" [(ngModel)]= 'model.password'>
+        <div class="form-group text-center fadeIn fourth">
+            <input type="submit" value="Sign Up">
+            <a (click)='cancel()'>cancel</a>
+        </div>
+      </form>
+  
+    </div>
+  </div>
